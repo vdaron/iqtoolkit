@@ -15,7 +15,7 @@ namespace Test
         private static DbEntityProvider CreateNorthwindProvider()
         {
             return new MySqlQueryProvider(
-                "Server=localhost;user id='root';password='mypwd';Database=Northwind", 
+                "Server=localhost;user id='root';password='depfac$2000';Database=Northwind", 
                 new AttributeMapping(typeof(Test.NorthwindWithAttributes)));
         }
 

@@ -7,6 +7,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Reflection.Emit;
+using System.Runtime.CompilerServices;
 
 namespace IQToolkit
 {
@@ -460,26 +461,13 @@ namespace IQToolkit
                 }
             }
         }
-
-        // holds a delegate to the runtime implemented API
-        private static Func<Type, object> fnGetUninitializedObject;
-
+        
         /// <summary>
         /// Gets an unitialized instance of an object of the specified type.
         /// </summary>
         public static object GetUninitializedObject(this Type type)
         {
-            if (fnGetUninitializedObject == null)
-            {
-                var a = typeof(System.Runtime.CompilerServices.RuntimeHelpers).GetTypeInfo().Assembly;
-                var fs = a.DefinedTypes.FirstOrDefault(t => t.FullName == "System.Runtime.Serialization.FormatterServices");
-                var guo = fs?.DeclaredMethods.FirstOrDefault(m => m.Name == nameof(GetUninitializedObject));
-                if (guo == null)
-                    throw new NotSupportedException($"The runtime does not support the '{nameof(GetUninitializedObject)}' API.");
-                System.Threading.Interlocked.CompareExchange(ref fnGetUninitializedObject, (Func<Type, object>)guo.CreateDelegate(typeof(Func<Type, object>)), null);
-            }
-
-            return fnGetUninitializedObject(type);
+            return System.Runtime.Serialization.FormatterServices.GetUninitializedObject(type);
         }
     }
 }

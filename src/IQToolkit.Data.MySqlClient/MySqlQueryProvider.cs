@@ -2,9 +2,8 @@
 // This source code is made available under the terms of the Microsoft Public License (MS-PL)
 
 using System;
-using System.Data;
 using System.Data.Common;
-using MySql.Data.MySqlClient;
+using MySqlConnector;
 
 namespace IQToolkit.Data.MySqlClient
 {
